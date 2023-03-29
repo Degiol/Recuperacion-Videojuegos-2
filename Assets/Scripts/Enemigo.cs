@@ -36,13 +36,15 @@ public class Enemigo : MonoBehaviour
 
         if (transform.position == posicionFin){
             moviendoAFin = false;
-            spriteRenderer.flipX = true;
+            if(posicionInicio.x!=posicionFin.x)
+                spriteRenderer.flipX = true;
             }
 
         if (transform.position == posicionInicio)
         {
             moviendoAFin = true;
-            spriteRenderer.flipX = false;
+            if (posicionInicio.x != posicionFin.x)
+                spriteRenderer.flipX = false;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -50,7 +52,7 @@ public class Enemigo : MonoBehaviour
         if (collision.gameObject.CompareTag("Personaje"))
         {
             Debug.Log("colision");
-            //collision.gameObject.GetComponent<MovimientoJugador>().QuitarVida();
+            collision.gameObject.GetComponent<MovimientoJugador>().QuitarVida();
         }
     }
 }

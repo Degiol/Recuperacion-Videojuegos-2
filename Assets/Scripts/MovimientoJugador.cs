@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class MovimientoJugador : MonoBehaviour
 {
     [Range(1, 10)] public float velocidad;
     Rigidbody2D rigidbody2;
     SpriteRenderer spriteRenderer;
+
+    public bool vulnerable = true;
+
+    public int vidas = 3;
 
     Animator animator;
 
@@ -62,5 +67,26 @@ public class MovimientoJugador : MonoBehaviour
 
             rigidbody2.velocity = new Vector2(rigidbody2.velocity.x, 0);
         }
+    }
+    public void QuitarVida()
+    {
+        if (vulnerable)
+        {
+            vidas--;
+            vulnerable = false;
+            spriteRenderer.color = Color.red;
+            Invoke("hacerVulnerable", 1f);
+        }
+    }
+    public void PowerUp()
+    {
+        vidas++;
+        vulnerable = false;
+        Invoke("hacerVulnerable", 5f);
+    }
+    public void hacerVulnerable()
+    {
+        spriteRenderer.color = Color.white;
+        vulnerable = true;
     }
 }
