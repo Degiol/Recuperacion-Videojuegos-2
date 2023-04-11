@@ -8,10 +8,10 @@ public class MovimientoJugador : MonoBehaviour
     [Range(1, 10)] public float velocidad;
     Rigidbody2D rigidbody2;
     SpriteRenderer spriteRenderer;
+    GameManager gameManager;
 
     public bool vulnerable = true;
 
-    public int vidas = 3;
 
     Animator animator;
 
@@ -23,6 +23,7 @@ public class MovimientoJugador : MonoBehaviour
     {
         rigidbody2 = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        gameManager=FindObjectOfType<GameManager>();
 
         animator = GetComponent<Animator>();
     }
@@ -72,7 +73,7 @@ public class MovimientoJugador : MonoBehaviour
     {
         if (vulnerable)
         {
-            vidas--;
+            gameManager.decrementarVidas();
             vulnerable = false;
             spriteRenderer.color = Color.red;
             Invoke("hacerVulnerable", 1f);
@@ -80,7 +81,7 @@ public class MovimientoJugador : MonoBehaviour
     }
     public void PowerUp()
     {
-        vidas++;
+        gameManager.incrementarVidas();
         vulnerable = false;
         Invoke("hacerVulnerable", 5f);
     }
