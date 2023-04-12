@@ -9,6 +9,10 @@ public class MovimientoJugador : MonoBehaviour
     Rigidbody2D rigidbody2;
     SpriteRenderer spriteRenderer;
     GameManager gameManager;
+    //JOYSTICK
+    public Joystick joystick;
+    float movimientoH;
+    float movimientoV;
 
     public bool vulnerable = true;
 
@@ -35,7 +39,19 @@ public class MovimientoJugador : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        float movimientoH = Input.GetAxisRaw("Horizontal");
+        //movimiento sin joystick
+        //float movimientoH = Input.GetAxisRaw("Horizontal");
+
+        if ((joystick.Horizontal >= .2f) | (joystick.Horizontal <= .2f))
+        {
+            movimientoH = joystick.Horizontal;
+        }
+        else
+        {
+            movimientoH = 0;
+        }
+        movimientoV = joystick.Vertical;
+
         rigidbody2.velocity = new Vector2(movimientoH * velocidad, rigidbody2.velocity.y);
         if (movimientoH < 0)
         {
@@ -43,14 +59,16 @@ public class MovimientoJugador : MonoBehaviour
         }
         else
             if (movimientoH > 0)
-                spriteRenderer.flipX = false;
+            spriteRenderer.flipX = false;
         if (movimientoH != 0)
         {
             animator.SetBool("isWalking", true);
         }
         else
             animator.SetBool("isWalking", false);
-        if (Input.GetButton("Jump") && !isJumping)
+        //Sin joystick
+        //if(Input.GetButton("Jump") && !isJumping)
+        if (movimientoV >= .5f && !isJumping)
         {
             rigidbody2.AddForce(Vector2.up * potenciaSalto);
             isJumping = true;
@@ -59,7 +77,7 @@ public class MovimientoJugador : MonoBehaviour
             animator.SetBool("isJumping", true);
         else
             animator.SetBool("isJumping", false);
-    }
+}
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Suelo"))

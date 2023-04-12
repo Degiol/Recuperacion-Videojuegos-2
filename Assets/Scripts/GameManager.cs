@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
      * -Tiempo(reset) DONE
      * -vidas DONE
      * -Puntuacion DONE
-     * Control para movil(Joystick)
-     * Generar apk
+     * Control para movil(Joystick) DONE
+     * Generar apk DONE
      */
     private GameObject gameManager;
     float tiempo;
